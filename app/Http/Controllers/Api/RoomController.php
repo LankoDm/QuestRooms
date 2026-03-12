@@ -3,47 +3,40 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoomRequest;
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Room::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(RoomRequest $request)
     {
-        //
+        $validateData = $request->validated();
+        $room = Room::create($validateData);
+        return response()->json($room, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        return response()->json(Room::findOrFail($id));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(RoomRequest $request, string $id)
     {
-        //
+        $validateData = $request->validated();
+        $room = Room::findOrFail($id);
+        $room->update($validateData);
+        return response()->json($room, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        Room::findOrFail($id)->delete();
+        return response()->json(["message" => "Room deleted successfully."]);
     }
 }
