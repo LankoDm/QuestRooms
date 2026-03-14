@@ -25,7 +25,7 @@ class RoomRequest extends FormRequest
             'name' => 'required|min:10|max:255|unique:rooms,name',
             'description' => 'required|min:20',
             'difficulty' => 'required|in:easy,medium,hard,ultra hard',
-            'image_path' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,webp|max:4096',
             'min_players' => 'required|integer|min:1',
             'max_players' => 'required|integer|gte:min_players',
             'weekday_price' => 'required|integer|min:0',
