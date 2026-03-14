@@ -12,9 +12,15 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Booking::all());
+        $user = $request->user();
+        if($user->isAdmin() || $user->isManager()){
+            $bookings = Booking::with(['room'])->get();
+        }else{
+            $bookings = Booking::with(['room'])->where('user_id', $user->id)->get();
+        }
+        return response()->json($bookings);
     }
 
     public function store(BookingRequest $request)
@@ -54,9 +60,15 @@ class BookingController extends Controller
         return response()->json($booking, 201);
     }
 
-    public function show(string $id)
+    public function show(Request $request ,string $id)
     {
-        $booking = Booking::findOrFail($id);
+        $booking = Booking::with(['room'])->findOrFail($id);
+        $user = $request->user();
+        if($user->id !== $booking->user_id){
+            return response()->json([
+                'message' => 'Доступ заборонено. Ви не можете дивитися чужі бронювання.'
+            ], 403);
+        }
         return response()->json($booking);
     }
 
