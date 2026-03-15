@@ -76,6 +76,12 @@ class RoomController extends Controller
     {
         $validateData = $request->validated();
         $room = Room::findOrFail($id);
+        if($request->hasFile('image_path')){
+            $path = $request->file('image_path')->store('rooms', 'public');
+            $validateData['image_path'] = url("storage/{$path}");
+        } else {
+            unset($validateData['image_path']);
+        }
         $room->update($validateData);
         return response()->json($room, 200);
     }
