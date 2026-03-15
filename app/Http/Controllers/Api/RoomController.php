@@ -80,7 +80,7 @@ class RoomController extends Controller
         return response()->json($room, 200);
     }
 
-    public function toggleStatus(RoomRequest $request, string $id)
+    public function toggleStatus(Request $request, string $id)
     {
         $request->validate([
             'is_active' => 'required|boolean'
