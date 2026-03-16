@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Events\BookingCreated;
 
 class BookingController extends Controller
 {
@@ -66,6 +67,7 @@ class BookingController extends Controller
                 'comment' => $request->comment,
                 'payment_method' => $request->payment_method,
             ]);
+            BookingCreated::dispatch($booking);
             return response()->json($booking, 201);
         });
     }
