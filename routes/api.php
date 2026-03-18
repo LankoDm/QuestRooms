@@ -21,6 +21,7 @@ Route::get('/rooms/{room}', [RoomController::class, 'show']);
 Route::get('/rooms/{room}/reviews', [ReviewController::class, 'index']);
 Route::post('/bookings', [BookingController::class, 'store']);
 Route::post('/bookings/hold', [BookingController::class, 'holdSlot']);
+Route::post('/bookings/{booking}/pay', [\App\Http\Controllers\Api\PaymentController::class, 'createCheckoutSession']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user/bookings', [BookingController::class, 'myBookings']);
