@@ -47,7 +47,7 @@ class RoomController extends Controller
         }else{
             $query->latest();
         }
-        $rooms = $query->paginate(10);
+        $rooms = $query->paginate(6);
         return response()->json($rooms);
     }
 
