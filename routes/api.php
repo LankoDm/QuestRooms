@@ -25,6 +25,7 @@ Route::post('/bookings', [BookingController::class, 'store']);
 Route::post('/bookings/hold', [BookingController::class, 'holdSlot']);
 Route::post('/bookings/{booking}/pay', [PaymentController::class, 'createCheckoutSession']);
 Route::post('/webhooks/stripe', [StripeWebhookController::class, 'handle']);
+Route::get('/bookings/{booking}/ticket', [BookingController::class, 'downloadTicket'])->name('ticket.download')->middleware('signed');
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user/bookings', [BookingController::class, 'myBookings']);

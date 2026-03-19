@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Events\BookingCreated;
 use App\Jobs\FinishBookingJob;
 use Illuminate\Support\Facades\Cache;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookingController extends Controller
 {
@@ -168,5 +169,13 @@ class BookingController extends Controller
             ], 409);
         }
         return response()->json(['message' => 'Час успішно зарезервовано на 10 хвилин.']);
+    }
+    public function downloadTicket(Booking $booking)
+    {
+        $pdf = Pdf::loadView('emails.booking_confirmed', [
+            'booking' => $booking,
+            'isPdf' => true
+        ]);
+        return $pdf->download("Ticket_Onea_Quests_{$booking->id}.pdf");
     }
 }
